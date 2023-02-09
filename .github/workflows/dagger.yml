@@ -1,0 +1,32 @@
+name: DaggerCI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.AEG_REGISTRY_TOKEN }}
+    - name: Dagger
+      uses: dagger/dagger-for-github@v3
+      with:
+        cmds: do test
+    # - name: Build and Push Docker Image
+    #   uses: docker/build-push-action@v2
+    #   with:
+    #     push: true # Will only build if this is not here
+    #     tags: |
+    #       ghcr.io/${{ github.repository }}:latest
