@@ -24,6 +24,7 @@ jobs:
       uses: dagger/dagger-for-github@v3
       with:
         cmds: do test
+        
     # - name: Build and Push Docker Image
     #   uses: docker/build-push-action@v2
     #   with:
